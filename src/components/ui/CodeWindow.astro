@@ -1,0 +1,73 @@
+---
+interface Props {
+  filename?: string;
+  class?: string;
+  lineNumbers?: boolean;
+  cursor?: boolean;
+  wrap?: boolean;
+  icon?: string;
+}
+
+const { filename, class: className = '', lineNumbers = true, cursor = false, wrap = false, icon } = Astro.props;
+---
+
+<div class={`code-window bg-charcoal-900 border border-charcoal-700 rounded-lg overflow-hidden ${className}`}>
+  <div class="bg-charcoal-800 px-3 py-2 flex items-center gap-3">
+    <div class="flex gap-1.5">
+      <span class="w-2.5 h-2.5 rounded-full bg-red-500/70"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-yellow-500/70"></span>
+      <span class="w-2.5 h-2.5 rounded-full bg-green-500/70"></span>
+    </div>
+    {filename && (
+      <span class="text-base font-bold text-white/80 font-mono group-hover:text-accent-light transition-colors">{filename}</span>
+    )}
+    {icon && (
+      <svg
+        width="18"
+        height="18"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="1.7"
+        class="ml-auto flex-shrink-0 text-accent-light/50 group-hover:text-accent-light transition-colors"
+        set:html={icon}
+      />
+    )}
+  </div>
+  <div class:list={['p-3.5 font-mono text-sm leading-snug overflow-x-auto', wrap ? 'whitespace-normal' : 'whitespace-nowrap', { 'code-lines': lineNumbers }]}>
+    <slot />
+    {cursor && <span class="inline-block w-2 h-4 bg-accent align-middle animate-pulse"></span>}
+  </div>
+</div>
+
+<style>
+  .code-window {
+    box-shadow: 0 0 40px -18px rgba(59, 130, 246, 0.45);
+    transition: border-color 0.25s ease, box-shadow 0.25s ease;
+  }
+
+  .code-window:hover {
+    box-shadow: 0 0 55px -14px rgba(59, 130, 246, 0.6);
+  }
+</style>
+
+<style>
+  .code-lines {
+    counter-reset: line;
+    padding-left: 2rem;
+  }
+
+  .code-lines > div {
+    counter-increment: line;
+    position: relative;
+  }
+
+  .code-lines > div::before {
+    content: counter(line);
+    position: absolute;
+    left: -2rem;
+    width: 1.5rem;
+    text-align: right;
+    color: rgba(255, 255, 255, 0.2);
+  }
+</style>
