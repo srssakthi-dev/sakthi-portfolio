@@ -1,21 +1,104 @@
 @import "tailwindcss";
 
-@theme {
-  --color-charcoal-950: #05050a;
-  --color-charcoal-900: #0b0b16;
-  --color-charcoal-800: #121224;
-  --color-charcoal-700: #1e1e38;
+/* Self-hosted fonts (via @fontsource) instead of a Google Fonts <link>.
+   The Google Fonts CDN was failing to load in the browser being used to
+   test this site (likely an ad-blocker or network-level block on
+   fonts.googleapis.com/fonts.gstatic.com — confirmed unreachable from
+   this sandbox too) which silently fell back to a system font, most
+   visible on the large "Sakthi" outline text. Self-hosting removes that
+   dependency entirely: the font files ship as part of the site itself. */
+@import "@fontsource/inter/400.css";
+@import "@fontsource/inter/500.css";
+@import "@fontsource/inter/600.css";
+@import "@fontsource/inter/700.css";
+@import "@fontsource/inter/800.css";
+@import "@fontsource/poppins/400.css";
+@import "@fontsource/poppins/500.css";
+@import "@fontsource/poppins/600.css";
+@import "@fontsource/poppins/700.css";
+@import "@fontsource/jetbrains-mono/400.css";
+@import "@fontsource/jetbrains-mono/500.css";
 
-  --color-accent: #6366f1;
-  --color-accent-light: #818cf8;
-  --color-accent-dark: #4338ca;
+@theme {
+  /* Warm near-black, not stark black — reads calmer, less "cold tech."
+     Card/panel surfaces step up in warmth alongside it. */
+  --color-charcoal-950: #12100e;
+  --color-charcoal-900: #1c1916;
+  --color-charcoal-800: #241f1a;
+  --color-charcoal-700: #2e2721;
+
+  /* The one accent color, site-wide. Moved off blue entirely — this was
+     the single biggest thing making the site read as "generic dev
+     portfolio." Muted terracotta/clay instead: warm, calm, distinctive,
+     and not tied to any tech-portfolio cliche. */
+  --color-accent: #c98456;
+  --color-accent-light: #e0a97d;
+  --color-accent-dark: #a8663d;
+
+  /* Not decorative — used only to color-code the "Software Engineering"
+     project category tag on the Projects page. */
   --color-accent-purple: #a855f7;
 
+  /* Unused for now; kept in case a second accent moment is wanted later. */
+  --color-accent-warm: #f5a524;
+  --color-accent-warm-dark: #d4870f;
+
   --font-sans: 'Inter', system-ui, sans-serif;
-  --font-display: 'Fraunces', Georgia, serif;
+  /* Poppins for all headings (Home, About, Projects) via the font-display
+     token — softer and calmer than Outfit, fits the muted direction. */
+  --font-display: 'Poppins', system-ui, sans-serif;
   --font-mono: 'JetBrains Mono', 'Fira Code', ui-monospace, monospace;
+}
+
+html {
+  overflow-x: hidden;
 }
 
 body {
   @apply bg-charcoal-950 text-white font-sans antialiased;
+  overflow-x: hidden;
+}
+
+/* Hollow gradient-ish outline text — used for "Sakthi" in the hero name.
+   Plain CSS text-stroke instead of an SVG/gradient trick so it always
+   renders immediately, with no web-font race condition. */
+.name-outline {
+  font-family: var(--font-display);
+  color: transparent;
+  -webkit-text-stroke: 1.5px var(--color-accent-light);
+  text-stroke: 1.5px var(--color-accent-light);
+}
+
+
+/* ---- Shared typography roles ---- */
+/* Small mono label, used above every page title and every section heading. */
+.kicker {
+  @apply font-mono text-xs uppercase tracking-widest text-white/40;
+}
+
+/* Standard page title (About, Projects, etc). Home's hero heading is bigger
+   and defined locally, but shares the same white color via .warm-heading. */
+.page-heading {
+  @apply font-display font-bold leading-[1.1] text-4xl sm:text-5xl;
+  color: #f2ede6;
+}
+
+.warm-heading {
+  color: #f2ede6;
+}
+
+/* The one larger, brighter line directly under a heading. */
+.lead {
+  @apply text-lg text-white/70 leading-relaxed;
+}
+
+/* Standard paragraph copy. Use this everywhere instead of picking a
+   one-off white/NN value. */
+.body-text {
+  @apply text-white/60 leading-relaxed;
+}
+
+/* Dates, tags, tech stacks, captions. */
+.meta-text {
+  @apply font-mono text-xs text-white/35;
 }

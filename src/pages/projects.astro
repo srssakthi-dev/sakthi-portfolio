@@ -1,0 +1,446 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { projects, categoryColor } from '../data/projects';
+
+const categories = ['All', ...new Set(projects.map((p) => p.category))];
+---
+
+<Layout title="Projects">
+  <main class="relative px-6 pt-32 pb-24">
+    <div class="relative max-w-6xl mx-auto">
+      <span class="kicker">Projects</span>
+      <h1 class="page-heading mt-3">Some things I've built</h1>
+
+      <p class="mt-6 lead max-w-2xl">
+        A mix of AI/ML, software engineering, and a bit of creative work from hackathons.
+      </p>
+
+      <div class="mt-8 flex flex-wrap gap-2" id="filter-bar">
+        {categories.map((cat) => (
+          <button
+            type="button"
+            class="filter-pill"
+            data-filter={cat}
+            aria-pressed={cat === 'All' ? 'true' : 'false'}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+
+      <p class="mt-4 meta-text" id="filter-empty" hidden>No projects in this category yet.</p>
+
+      <div class="mt-8 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="project-grid">
+        {projects.map((project) => {
+          const primaryHref = project.notebookUrl || project.repoUrl;
+          const primaryLabel = project.notebookUrl ? 'View notebook' : 'View on GitHub';
+          return (
+            <div id={project.slug} class="project-card rounded-xl bg-charcoal-800 overflow-hidden flex flex-col scroll-mt-24" data-category={project.category}>
+              <a href={primaryHref} class="thumb h-56 bg-charcoal-900 overflow-hidden block">
+                {project.pipeline ? (
+                  <div class="stage h-full w-full flex items-center justify-center">
+                    <div class="term-frame">
+                      <div class="term-bar">
+                        <span class="term-dot" style="background:#ff5f56"></span>
+                        <span class="term-dot" style="background:#ffbd2e"></span>
+                        <span class="term-dot" style="background:#27c93f"></span>
+                        <span class="term-title">{project.title}</span>
+                      </div>
+                      <div class="term-screen term-screen--stats">
+                        <span class="pipeline-kicker">NLP trait pipeline</span>
+                        <div class="pipeline">
+                          {project.pipeline.map((step, i) => (
+                            <>
+                              <span class={`pipeline-step ${i === project.pipeline!.length - 1 ? 'is-last' : ''}`}>{step}</span>
+                              {i < project.pipeline!.length - 1 && (
+                                <svg class="pipeline-arrow" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                  <path d="M9 6l6 6-6 6" />
+                                </svg>
+                              )}
+                            </>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : project.modelComparison ? (
+                  <div class="stage h-full w-full flex items-center justify-center">
+                    <div class="term-frame">
+                      <div class="term-bar">
+                        <span class="term-dot" style="background:#ff5f56"></span>
+                        <span class="term-dot" style="background:#ffbd2e"></span>
+                        <span class="term-dot" style="background:#27c93f"></span>
+                        <span class="term-title">{project.title}</span>
+                      </div>
+                      <div class="term-screen term-screen--stats">
+                        <span class="pipeline-kicker">Model comparison</span>
+                        <div class="model-compare">
+                          {project.modelComparison.map((model) => (
+                            <div class="model-card">
+                              <p class="model-name">{model.name}</p>
+                              <p class="model-stat">
+                                <span class="model-stat-value">{(model.accuracy * 100).toFixed(1)}%</span>
+                                <span class="model-stat-label">accuracy</span>
+                              </p>
+                              <p class="model-stat">
+                                <span class="model-stat-value model-stat-value--sub">{(model.recall * 100).toFixed(1)}%</span>
+                                <span class="model-stat-label">recall</span>
+                              </p>
+                            </div>
+                          ))}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                ) : project.image && project.frame === 'terminal' ? (
+                  <div class="stage h-full w-full flex items-center justify-center">
+                    <div class="term-frame">
+                      <div class="term-bar">
+                        <span class="term-dot" style="background:#ff5f56"></span>
+                        <span class="term-dot" style="background:#ffbd2e"></span>
+                        <span class="term-dot" style="background:#27c93f"></span>
+                        <span class="term-title">{project.title}</span>
+                      </div>
+                      <div class="term-screen">
+                        <img src={project.image} alt={project.title} />
+                      </div>
+                    </div>
+                  </div>
+                ) : project.image ? (
+                  <div class="stage h-full w-full flex items-center justify-center">
+                    <div class="laptop">
+                      <div
+                        class="screen"
+                        style={project.frameAspect ? `height: auto; aspect-ratio: ${project.frameAspect};` : ''}
+                      >
+                        <img
+                          src={project.image}
+                          alt={project.title}
+                          style={project.fit === 'contain' ? 'object-fit: contain; background: #0b0b16;' : ''}
+                        />
+                      </div>
+                    </div>
+                  </div>
+                ) : (
+                  <div class="w-full h-full flex items-center justify-center gap-2 text-white/25 font-mono text-xs">
+                    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" set:html={project.thumbIcon} />
+                    <span>{project.thumbLabel}</span>
+                  </div>
+                )}
+              </a>
+
+              <div class="p-6 flex flex-col flex-1">
+                <div class="flex items-center justify-between gap-3">
+                  <span class={`text-xs font-semibold ${categoryColor[project.category]}`}>[{project.category}]</span>
+                  <span class="meta-text">{project.period}</span>
+                </div>
+
+                <a href={primaryHref} class="mt-4 text-lg font-semibold text-white/90 leading-snug hover:text-accent-light transition-colors">
+                  {project.title}
+                </a>
+                <p class="mt-2 text-sm body-text flex-1">{project.summary}</p>
+
+                <div class="mt-4 flex flex-wrap gap-1.5">
+                  {project.tech.map((t) => (
+                    <span class="tech-tag">{t}</span>
+                  ))}
+                </div>
+
+                <div class="mt-4 flex items-center gap-4">
+                  <a href={primaryHref} class="meta-text hover:text-accent-light transition-colors">
+                    {primaryLabel} →
+                  </a>
+                  {project.demoUrl && (
+                    <a href={project.demoUrl} class="meta-text hover:text-accent-light transition-colors">
+                      ▶ Demo
+                    </a>
+                  )}
+                </div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      <div class="mt-14 flex flex-wrap gap-4">
+        <a
+          href="https://github.com/srssakthi-dev"
+          class="px-5 py-2.5 rounded-lg border border-white/15 text-white/70 text-sm font-medium hover:border-accent-light hover:text-accent-light transition-colors"
+        >
+          See more on GitHub →
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<script>
+  const bar = document.getElementById('filter-bar');
+  const cards = document.querySelectorAll<HTMLElement>('#project-grid > [data-category]');
+  const empty = document.getElementById('filter-empty');
+
+  bar?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.filter-pill');
+    if (!btn) return;
+
+    bar.querySelectorAll('.filter-pill').forEach((b) => b.setAttribute('aria-pressed', 'false'));
+    btn.setAttribute('aria-pressed', 'true');
+
+    const filter = btn.dataset.filter;
+    let visibleCount = 0;
+
+    cards.forEach((card) => {
+      const show = filter === 'All' || card.dataset.category === filter;
+      card.style.display = show ? '' : 'none';
+      if (show) visibleCount++;
+    });
+
+    if (empty) empty.hidden = visibleCount !== 0;
+  });
+</script>
+
+<style>
+
+  .project-card {
+    transition: transform 0.18s ease;
+  }
+
+  .project-card:hover {
+    transform: translateY(-4px);
+  }
+
+  .project-card:active {
+    transform: translateY(-1px);
+  }
+
+  .tech-tag {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 11px;
+    padding: 4px 9px;
+    border-radius: 6px;
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.04);
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .filter-pill {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 12.5px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.12);
+    color: rgba(255, 255, 255, 0.55);
+    background: transparent;
+    cursor: pointer;
+    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  }
+
+  .filter-pill:hover {
+    border-color: rgba(201, 132, 86, 0.4);
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .filter-pill[aria-pressed='true'] {
+    border-color: rgba(201, 132, 86, 0.6);
+    background: rgba(201, 132, 86, 0.12);
+    color: var(--color-accent-light);
+  }
+
+  .stage {
+    padding: 20px 16px 0;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(201, 132, 86, 0.2), transparent 60%),
+      linear-gradient(160deg, #10142a, #0b0b16 75%);
+  }
+
+  .laptop {
+    width: 100%;
+    max-width: 340px;
+    border-radius: 8px 8px 3px 3px;
+    background: #1c1d33;
+    border: 1px solid rgba(201, 132, 86, 0.25);
+    padding: 5px 5px 10px;
+    box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.6);
+    position: relative;
+  }
+
+  .laptop .screen {
+    border-radius: 4px;
+    overflow: hidden;
+    background: #0b0b16;
+    aspect-ratio: 1200 / 626;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .laptop .screen.screen--stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    padding: 14px;
+  }
+
+  .laptop .screen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+  }
+
+  .laptop::after {
+    content: '';
+    position: absolute;
+    bottom: -4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 30%;
+    height: 4px;
+    border-radius: 0 0 6px 6px;
+    background: #0d0e1c;
+  }
+
+  .term-frame {
+    width: 100%;
+    max-width: 340px;
+    border-radius: 8px;
+    background: #1c1d33;
+    overflow: hidden;
+    box-shadow: 0 20px 40px -18px rgba(0, 0, 0, 0.6);
+  }
+
+  .term-bar {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 10px;
+    background: #17182a;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .term-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+  }
+
+  .term-title {
+    margin-left: 6px;
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 10.5px;
+    color: rgba(255, 255, 255, 0.45);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  .term-screen {
+    height: 152px;
+    background: #0b0b16;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  .term-screen--stats {
+    flex-direction: column;
+    gap: 8px;
+    padding: 12px;
+  }
+
+  .term-screen img {
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+    display: block;
+  }
+
+  .pipeline-kicker {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-accent-light);
+  }
+
+  .pipeline {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    max-width: 280px;
+  }
+
+  .pipeline-step {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9.5px;
+    color: rgba(255, 255, 255, 0.75);
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 5px;
+    padding: 4px 7px;
+    white-space: nowrap;
+  }
+
+  .pipeline-step.is-last {
+    color: var(--color-accent-light);
+    border-color: rgba(201, 132, 86, 0.4);
+    background: rgba(201, 132, 86, 0.1);
+  }
+
+  .pipeline-arrow {
+    color: rgba(255, 255, 255, 0.25);
+    flex-shrink: 0;
+  }
+
+  .model-compare {
+    display: flex;
+    gap: 8px;
+  }
+
+  .model-card {
+    background: rgba(255, 255, 255, 0.04);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+    border-radius: 7px;
+    padding: 8px 10px;
+    min-width: 100px;
+    text-align: center;
+  }
+
+  .model-name {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.6);
+    margin: 0 0 5px;
+    white-space: nowrap;
+  }
+
+  .model-stat {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    gap: 4px;
+    margin: 2px 0 0;
+  }
+
+  .model-stat-value {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--color-accent-light);
+  }
+
+  .model-stat-value--sub {
+    font-size: 11px;
+    color: rgba(255, 255, 255, 0.75);
+  }
+
+  .model-stat-label {
+    font-family: 'JetBrains Mono', ui-monospace, monospace;
+    font-size: 9px;
+    color: rgba(255, 255, 255, 0.4);
+  }
+</style>

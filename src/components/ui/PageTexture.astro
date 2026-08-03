@@ -1,0 +1,88 @@
+---
+// Shared decorative texture used on every page via Layout — kept here
+// (not per-page) so Home/About/Projects all get the identical treatment
+// instead of drifting apart. Two pieces:
+//   1. A few large, low-contrast graphite facets for background depth
+//      (grayscale only, no new hues introduced).
+//   2. A dot-grid patch in two corners, fading inward via mask.
+//
+// This whole block is `position: absolute` and pinned to the TOP of the
+// page (not `position: fixed`, and not full document height). Fixed
+// positioning kept it glued to the viewport no matter how far you
+// scrolled, which read as static/dead, especially on mobile. Absolute +
+// capped to one screen height means it scrolls away naturally with the
+// hero, like normal page content, and never stretches oddly on long
+// pages (About, Projects).
+---
+
+<div class="page-texture" aria-hidden="true">
+  <div class="facet facet-1"></div>
+  <div class="facet facet-2"></div>
+  <div class="facet facet-3"></div>
+  <div class="corner-dots corner-dots--tr"></div>
+  <div class="corner-dots corner-dots--bl"></div>
+</div>
+
+<style>
+  .page-texture {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 100dvh;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .facet {
+    position: absolute;
+    opacity: 0.55;
+  }
+
+  .facet-1 {
+    top: -10%;
+    left: -5%;
+    width: 60%;
+    height: 55%;
+    background: linear-gradient(135deg, #1e1a16, transparent 70%);
+  }
+
+  .facet-2 {
+    bottom: -15%;
+    right: -10%;
+    width: 55%;
+    height: 60%;
+    background: linear-gradient(315deg, #1a1613, transparent 70%);
+  }
+
+  .facet-3 {
+    top: 20%;
+    right: 5%;
+    width: 35%;
+    height: 40%;
+    background: linear-gradient(200deg, #171310, transparent 75%);
+  }
+
+  .corner-dots {
+    position: absolute;
+    width: 160px;
+    height: 160px;
+    background-image: radial-gradient(rgba(242, 237, 230, 0.3) 1.4px, transparent 1.4px);
+    background-size: 14px 14px;
+  }
+
+  .corner-dots--tr {
+    top: 0;
+    right: 0;
+    -webkit-mask-image: radial-gradient(circle at 100% 0%, black 0%, transparent 75%);
+    mask-image: radial-gradient(circle at 100% 0%, black 0%, transparent 75%);
+  }
+
+  .corner-dots--bl {
+    bottom: 0;
+    left: 0;
+    -webkit-mask-image: radial-gradient(circle at 0% 100%, black 0%, transparent 75%);
+    mask-image: radial-gradient(circle at 0% 100%, black 0%, transparent 75%);
+  }
+</style>

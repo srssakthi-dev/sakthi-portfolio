@@ -1,5 +1,7 @@
 ---
-import CodeWindow from '../ui/CodeWindow.astro';
+import { projects } from '../../data/projects';
+
+const featured = projects[0];
 
 const socials = [
   {
@@ -14,66 +16,36 @@ const socials = [
   },
 ];
 
-const pills = ['Python', 'AI / ML', 'Backend'];
-
-const sections = [
-  {
-    label: 'About',
-    href: '/about',
-    filename: 'about.ts',
-    command: 'cd ./about',
-    tagline: 'the person behind the code',
-    icon: '<circle cx="12" cy="7" r="4"/><path d="M5.5 21a6.5 6.5 0 0 1 13 0"/>',
-  },
-  {
-    label: 'Projects',
-    href: '/projects',
-    filename: 'projects.ts',
-    command: 'cd ./projects',
-    tagline: 'some things I’ve built',
-    icon: '<polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/>',
-  },
-  {
-    label: 'Experience',
-    href: '/experience',
-    filename: 'experience.ts',
-    command: 'cd ./experience',
-    tagline: 'where I’ve worked',
-    icon: '<rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v2"/>',
-  },
-  {
-    label: 'Contact',
-    href: '/contact',
-    filename: 'contact.ts',
-    command: 'cd ./contact',
-    tagline: 'let’s talk',
-    icon: '<rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 6-10 7L2 6"/>',
-  },
-];
+const belt = ['Python', 'AI / ML', 'Backend', 'PyTorch', 'Node.js', 'SQL'];
 ---
 
-<section id="home" class="hero relative px-6 pt-20 pb-16 overflow-hidden">
-  <div class="hero-grid pointer-events-none absolute inset-0"></div>
-  <div class="pointer-events-none absolute inset-0 -z-10">
-    <div class="absolute top-[-15%] left-[10%] w-[500px] h-[500px] rounded-full bg-accent/20 blur-[130px]"></div>
-    <div class="absolute top-[30%] right-[8%] w-[420px] h-[420px] rounded-full bg-accent-purple/15 blur-[130px]"></div>
-    <div class="absolute bottom-[-10%] left-[20%] w-[460px] h-[460px] rounded-full bg-accent/10 blur-[140px]"></div>
-  </div>
-
-  <div class="relative max-w-3xl mx-auto text-center">
-    <h1 class="warm-heading font-display text-5xl sm:text-6xl font-medium leading-[1.05]">
-      Hi, I'm Sakthi
+<section id="home" class="hero relative px-6 sm:px-10 py-16 min-h-dvh flex flex-col justify-center">
+  <div class="relative max-w-4xl w-full mx-auto text-center">
+    <h1 class="warm-heading font-display text-5xl sm:text-6xl font-bold leading-[1.05]">
+      Hi, I'm <span class="name-outline">Sakthi</span>
     </h1>
 
     <p class="mt-5 text-lg text-white/60 leading-relaxed max-w-md mx-auto">
       Computer Science student building intelligent systems with AI, machine learning, and data.
     </p>
 
-    <div class="mt-6 flex flex-wrap justify-center gap-2">
-      {pills.map((pill) => (
-        <span class="text-sm px-4 py-1.5 rounded-full border border-white/15 text-white/70">{pill}</span>
-      ))}
+    <div class="belt-wrap mt-8">
+      <div class="belt-track">
+        {[...belt, ...belt].map((item) => (
+          <span>{item}</span>
+        ))}
+      </div>
     </div>
+
+    <a href={`/projects#${featured.slug}`} class="featured-card mt-10 block max-w-md mx-auto text-left">
+      <span class="kicker">Latest project</span>
+      <p class="mt-2 font-display font-semibold text-lg text-white/90">{featured.title}</p>
+      <p class="mt-2 text-sm text-white/55 leading-relaxed">{featured.summary}</p>
+      <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-light">
+        See all projects
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
+      </span>
+    </a>
 
     <div class="mt-7 flex items-center justify-center gap-5">
       {socials.map((social) => (
@@ -88,40 +60,71 @@ const sections = [
         </a>
       ))}
     </div>
-
-    <div class="relative mt-12 max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-5 text-left">
-      {sections.map((s) => (
-        <a href={s.href} class="quick-card-link group block">
-          <CodeWindow filename={s.filename} icon={s.icon} lineNumbers={false} wrap={true} class="h-full text-sm">
-            <div><span class="text-accent-light">&gt; {s.command}</span></div>
-            <div class="text-white/40 mt-2">{s.tagline} →</div>
-          </CodeWindow>
-        </a>
-      ))}
-    </div>
   </div>
 </section>
 
 <style>
-  .hero-grid {
-    background-image:
-      linear-gradient(to right, rgba(129, 140, 248, 0.07) 1px, transparent 1px),
-      linear-gradient(to bottom, rgba(129, 140, 248, 0.07) 1px, transparent 1px);
-    background-size: 44px 44px;
-    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 40%, transparent 90%);
+  .featured-card {
+    padding: 20px 22px;
+    border-radius: 14px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(255, 255, 255, 0.02);
+    transition: transform 0.18s ease, border-color 0.18s ease;
   }
 
-  .warm-heading {
-    color: #fdf1e3;
-    text-shadow: 0 0 30px rgba(251, 191, 36, 0.25), 0 0 60px rgba(251, 146, 60, 0.15);
-  }
-
-  .quick-card-link {
-    display: block;
-    transition: transform 0.2s ease;
-  }
-
-  .quick-card-link:hover {
+  .featured-card:hover {
     transform: translateY(-3px);
+    border-color: rgba(201, 132, 86, 0.35);
+  }
+
+  .belt-wrap {
+    position: relative;
+    overflow: hidden;
+    padding: 14px 0;
+    border-top: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+  }
+
+  .belt-track {
+    display: flex;
+    width: max-content;
+    gap: 2.5rem;
+    animation: belt-move 18s linear infinite;
+  }
+
+  .belt-track span {
+    font-family: var(--font-mono);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    color: rgba(224, 169, 125, 0.75);
+    white-space: nowrap;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .belt-track span::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.3);
+  }
+
+  @keyframes belt-move {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-50%);
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .belt-track {
+      animation: none;
+    }
   }
 </style>
