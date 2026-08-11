@@ -1,8 +1,4 @@
 ---
-import { projects } from '../../data/projects';
-
-const featured = projects[0];
-
 const socials = [
   {
     label: 'GitHub',
@@ -16,47 +12,91 @@ const socials = [
   },
 ];
 
-const belt = ['Python', 'AI / ML', 'Backend', 'PyTorch', 'Node.js', 'SQL'];
+// Personal highlight cards — tilted-photo-card frame, carrying a status/fact
+// about Sakthi instead of a project screenshot. Each card links out to the
+// page it's referencing (About, Projects, email).
+const cards = [
+  {
+    label: 'Studying',
+    title: 'SIM – University of London',
+    subtitle: 'BSc Computer Science',
+    href: '/about',
+    linkText: 'View about',
+    icon: '<path d="M22 10 12 5 2 10l10 5 10-5Z"/><path d="M6 12v5c0 1.5 2.5 3 6 3s6-1.5 6-3v-5"/>',
+    pos: { top: '0%', left: '0%', rot: '-7deg', z: 2 },
+  },
+  {
+    label: 'Building now',
+    title: 'Multimodal RAG system',
+    subtitle: 'Final year project',
+    href: '/projects',
+    linkText: 'View projects',
+    icon: '<circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.2 4.2l2.1 2.1M17.7 17.7l2.1 2.1M2 12h3M19 12h3M4.2 19.8l2.1-2.1M17.7 6.3l2.1-2.1"/>',
+    pos: { top: '0%', left: '56%', rot: '5deg', z: 2 },
+  },
+  {
+    label: 'Open to',
+    title: 'AI/ML · Data · Software Engineering',
+    subtitle: 'Internship opportunities',
+    href: 'mailto:srssakthi7@gmail.com',
+    linkText: 'Email me',
+    icon: '<path d="M3 6l9 6 9-6M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z"/>',
+    pos: { top: '38%', left: '20%', rot: '-2deg', z: 1 },
+  },
+];
+
+// Neon gradient fill + glowing border per card.
+const styleB = [
+  { bg: 'linear-gradient(135deg, #3b5fe0, #6d3be0)', border: 'rgba(120,150,255,0.7)', glow: 'rgba(90,110,255,0.35)', icon: '#ffffff', label: '#d6ddff', title: '#ffffff', subtitle: '#dbe0ff' },
+  { bg: 'linear-gradient(135deg, #e0673b, #e0a63b)', border: 'rgba(255,170,110,0.7)', glow: 'rgba(255,140,60,0.3)', icon: '#ffffff', label: '#ffe6d3', title: '#fff6ea', subtitle: '#ffe6d3' },
+  { bg: 'linear-gradient(135deg, #1fae82, #3be0b0)', border: 'rgba(100,255,210,0.7)', glow: 'rgba(60,255,190,0.3)', icon: '#ffffff', label: '#d3ffef', title: '#f0fff9', subtitle: '#d3ffef' },
+];
 ---
 
-<section id="home" class="hero relative px-6 sm:px-10 py-16 min-h-dvh flex flex-col justify-center">
-  <div class="relative max-w-4xl w-full mx-auto text-center">
-    <h1 class="warm-heading font-display text-5xl sm:text-6xl font-bold leading-[1.05]">
-      Hi, I'm <span class="name-outline">Sakthi</span>
-    </h1>
+<section id="home" class="hero relative px-6 sm:px-10 pt-10 sm:pt-12 pb-16 overflow-hidden">
+  <div class="relative max-w-5xl w-full mx-auto flex flex-col sm:flex-row sm:items-center gap-14 sm:gap-16">
+    <div class="text-center sm:text-left sm:flex-shrink-0">
+      <p class="kicker justify-center sm:justify-start flex">AI/ML &middot; Data &middot; Software</p>
+      <h1 class="warm-heading font-display text-6xl sm:text-7xl font-semibold leading-[1.05] mt-4">
+        Hey, I'm Sakthi.
+      </h1>
 
-    <p class="mt-5 text-lg text-white/60 leading-relaxed max-w-md mx-auto">
-      Computer Science student building intelligent systems with AI, machine learning, and data.
-    </p>
+      <p class="mt-5 text-lg text-white/60 leading-relaxed max-w-md mx-auto sm:mx-0">
+        Computer Science student exploring AI, machine learning, and data through hands-on projects and software
+        development. Currently seeking internship opportunities across AI/ML, Data, and Software.
+      </p>
 
-    <div class="belt-wrap mt-8">
-      <div class="belt-track">
-        {[...belt, ...belt].map((item) => (
-          <span>{item}</span>
+      <div class="mt-8 flex items-center gap-5 justify-center sm:justify-start">
+        {socials.map((social) => (
+          <a
+            href={social.href}
+            aria-label={social.label}
+            class="text-white/50 hover:text-white transition-colors"
+          >
+            <svg viewBox="0 0 24 24" width="38" height="38" fill="currentColor">
+              <path d={social.icon} />
+            </svg>
+          </a>
         ))}
+        <a href="/resume.pdf" class="btn-ghost">View resume</a>
       </div>
     </div>
 
-    <a href={`/projects#${featured.slug}`} class="featured-card mt-10 block max-w-md mx-auto text-left">
-      <span class="kicker">Latest project</span>
-      <p class="mt-2 font-display font-semibold text-lg text-white/90">{featured.title}</p>
-      <p class="mt-2 text-sm text-white/55 leading-relaxed">{featured.summary}</p>
-      <span class="mt-4 inline-flex items-center gap-1.5 text-sm font-semibold text-accent-light">
-        See all projects
-        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 6l6 6-6 6"/></svg>
-      </span>
-    </a>
-
-    <div class="mt-7 flex items-center justify-center gap-5">
-      {socials.map((social) => (
+    <div class="relative mx-auto sm:mx-0" style="width: min(100%, 460px); aspect-ratio: 380 / 300;">
+      {cards.map((c, i) => (
         <a
-          href={social.href}
-          aria-label={social.label}
-          class="text-white/50 hover:text-accent-light transition-colors"
+          href={c.href}
+          aria-label={c.title}
+          class="fan-card block overflow-hidden p-4"
+          style={`width: 44%; background: ${styleB[i].bg}; border: 1.5px solid ${styleB[i].border}; box-shadow: 0 0 30px ${styleB[i].glow}, 0 14px 26px rgba(0,0,0,0.4); top: ${c.pos.top}; left: ${c.pos.left}; --rot: ${c.pos.rot}; --z: ${c.pos.z};`}
         >
-          <svg viewBox="0 0 24 24" width="24" height="24" fill="currentColor">
-            <path d={social.icon} />
-          </svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke={styleB[i].icon} stroke-width="1.7" set:html={c.icon} />
+          <p class="mt-2 text-[10px] font-semibold uppercase tracking-wide" style={`color: ${styleB[i].label};`}>{c.label}</p>
+          <p class="mt-1 font-display font-bold text-[13.5px] leading-tight" style={`color: ${styleB[i].title};`}>{c.title}</p>
+          <p class="mt-1 text-[10.5px] leading-snug" style={`color: ${styleB[i].subtitle};`}>{c.subtitle}</p>
+          <p class="card-link mt-2.5 text-[11px] font-semibold" style={`color: ${styleB[i].label};`}>
+            {c.linkText} <span class="card-link-arrow">&rarr;</span>
+          </p>
         </a>
       ))}
     </div>
@@ -64,67 +104,74 @@ const belt = ['Python', 'AI / ML', 'Backend', 'PyTorch', 'Node.js', 'SQL'];
 </section>
 
 <style>
-  .featured-card {
-    padding: 20px 22px;
-    border-radius: 14px;
-    border: 1px solid rgba(255, 255, 255, 0.08);
-    background: rgba(255, 255, 255, 0.02);
-    transition: transform 0.18s ease, border-color 0.18s ease;
+  .btn-primary {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 22px;
+    border-radius: 8px;
+    background: #f2ede6;
+    color: #0a0a0a;
+    transition: opacity 0.18s ease;
   }
 
-  .featured-card:hover {
-    transform: translateY(-3px);
-    border-color: rgba(201, 132, 86, 0.35);
+  .btn-primary:hover {
+    opacity: 0.85;
   }
 
-  .belt-wrap {
-    position: relative;
+  .btn-ghost {
+    font-size: 14px;
+    font-weight: 600;
+    padding: 12px 22px;
+    border-radius: 8px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #f2ede6;
+    transition: border-color 0.18s ease;
+  }
+
+  .btn-ghost:hover {
+    border-color: rgba(255, 255, 255, 0.45);
+  }
+
+  .fan-card {
+    position: absolute;
+    aspect-ratio: 4 / 3.6;
+    border-radius: 8px;
     overflow: hidden;
-    padding: 14px 0;
-    border-top: 1px solid rgba(255, 255, 255, 0.08);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
-    -webkit-mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
-    mask-image: linear-gradient(to right, transparent, black 12%, black 88%, transparent);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.35);
+    transform: rotate(var(--rot));
+    z-index: var(--z);
+    transition: transform 0.22s ease, box-shadow 0.22s ease;
   }
 
-  .belt-track {
-    display: flex;
-    width: max-content;
-    gap: 2.5rem;
-    animation: belt-move 18s linear infinite;
+  .fan-card:hover {
+    transform: rotate(var(--rot)) translateY(-10px);
+    z-index: 10;
   }
 
-  .belt-track span {
-    font-family: var(--font-mono);
-    font-size: 13px;
-    letter-spacing: 0.04em;
-    color: rgba(224, 169, 125, 0.75);
-    white-space: nowrap;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  .card-link {
+    text-decoration: none;
+    opacity: 0.85;
+    transition: opacity 0.18s ease;
   }
 
-  .belt-track span::before {
-    content: '';
-    width: 4px;
-    height: 4px;
-    border-radius: 50%;
-    background: rgba(255, 255, 255, 0.3);
+  .card-link-arrow {
+    display: inline-block;
+    transition: transform 0.18s ease;
   }
 
-  @keyframes belt-move {
-    from {
-      transform: translateX(0);
-    }
-    to {
-      transform: translateX(-50%);
-    }
+  .fan-card:hover .card-link,
+  .fan-card:focus-visible .card-link {
+    opacity: 1;
+    text-decoration: underline;
+    text-underline-offset: 2px;
   }
 
-  @media (prefers-reduced-motion: reduce) {
-    .belt-track {
-      animation: none;
-    }
+  .fan-card:hover .card-link-arrow,
+  .fan-card:focus-visible .card-link-arrow {
+    transform: translateX(3px);
+  }
+
+  .fan-card:active .card-link-arrow {
+    transform: translateX(5px);
   }
 </style>

@@ -1,8 +1,6 @@
 ---
 import '../styles/global.css';
 import Nav from '../components/layout/Nav.astro';
-import Background from '../components/ui/Background.astro';
-import PageTexture from '../components/ui/PageTexture.astro';
 
 interface Props {
   title: string;
@@ -22,8 +20,6 @@ const { title, description = "Sakthi's portfolio — software engineer specializ
     <title>{title} | Sakthi</title>
   </head>
   <body>
-    <Background />
-    <PageTexture />
     <Nav />
     <slot />
   </body>

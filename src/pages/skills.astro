@@ -1,0 +1,99 @@
+---
+import Layout from '../layouts/Layout.astro';
+import { skillIcons } from '../data/skillIcons';
+
+const groups = [
+  {
+    label: 'Programming Languages',
+    skills: ['Python', 'JavaScript', 'TypeScript', 'C++', 'SQL'],
+  },
+  {
+    label: 'Software & Web Development',
+    skills: [
+      'Node.js', 'Express.js', 'HTML', 'CSS', 'REST APIs',
+      'Object-Oriented Programming', 'React Native',
+    ],
+  },
+  {
+    label: 'AI, Machine Learning & Data Science',
+    skills: ['Azure AI Foundry', 'RAG', 'LangChain', 'PyTorch', 'TensorFlow', 'Scikit-learn'],
+  },
+  {
+    label: 'Databases',
+    skills: ['MySQL', 'SQLite'],
+  },
+  {
+    label: 'Tools & Platforms',
+    skills: ['Git', 'GitLab (Basic)', 'Jupyter Notebook', 'Google Colab'],
+  },
+  {
+    label: 'Certifications',
+    skills: ['AWS Cloud Foundations'],
+  },
+];
+---
+
+<Layout title="Skills">
+  <main class="relative px-6 sm:px-10 pt-8 sm:pt-10 pb-24">
+    <div class="relative max-w-5xl mx-auto">
+      <span class="kicker">Skills</span>
+      <h1 class="page-heading mt-3">What I work with</h1>
+
+      <div class="mt-8 space-y-8">
+        {groups.map((group) => (
+          <div>
+            <h2 class="kicker">{group.label}</h2>
+            <div class="mt-4 flex flex-wrap gap-2">
+              {group.skills.map((skill) => (
+                <span class="skill-pill flex items-center gap-2 text-sm px-4 py-1.5 rounded-full border border-white/15 text-white/70">
+                  {skillIcons[skill] && (
+                    <svg width="14" height="14" viewBox="0 0 24 24" class="flex-shrink-0" aria-hidden="true">
+                      <path d={skillIcons[skill]} fill="currentColor" />
+                    </svg>
+                  )}
+                  {skill}
+                </span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="mt-10 flex flex-wrap gap-4">
+        <a
+          href="/projects"
+          class="px-5 py-2.5 rounded-lg bg-accent text-charcoal-950 text-sm font-semibold hover:bg-accent-light transition-colors"
+        >
+          See it in action
+        </a>
+        <a
+          href="/contact"
+          class="px-5 py-2.5 rounded-lg border border-white/15 text-white/70 text-sm font-medium hover:border-accent-light hover:text-accent-light transition-colors"
+        >
+          Get in touch
+        </a>
+      </div>
+    </div>
+  </main>
+</Layout>
+
+<style>
+  .skill-pill {
+    color: rgba(255, 255, 255, 0.7);
+    transition: border-color 0.18s ease, color 0.18s ease;
+  }
+
+  .skill-pill svg {
+    color: rgba(255, 255, 255, 0.4);
+    transition: color 0.18s ease;
+  }
+
+  .skill-pill:hover {
+    border-color: var(--color-accent-light);
+    color: #ffffff;
+  }
+
+  .skill-pill:hover svg {
+    color: var(--color-accent-light);
+  }
+</style>

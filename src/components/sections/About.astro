@@ -5,64 +5,187 @@
 
 const pills = ['Guitar', 'Chess', 'Baking', 'Coffee & Tea', 'Football'];
 
-const involvement = [
+const education = [
   {
-    title: 'Basketball Team Captain — Bedok View Secondary School',
-    period: 'Jan 2019 – Dec 2020',
-    desc: 'Captained the school team through competitions, communicating under pressure, supporting teammates with different strengths, and leading with accountability. Those lessons still shape how I approach teamwork today.',
+    institution: 'Singapore Institute of Management',
+    degree: 'University of London · BSc (Hons) Computer Science',
+    period: 'Expected Sep 2026',
+    summary:
+      'Currently completing my Computer Science degree, with a growing interest in Artificial Intelligence, Machine Learning, Data, and Software Development.',
+    focusLabel: 'Academic areas',
+    focus:
+      'AI & Machine Learning · Data Science · NLP · Algorithms & Data Structures · Databases · Software Development · Computer Security',
   },
   {
-    title: 'Volunteer — Team Nila, Youth Corps Singapore, Singapore Computer Society',
-    period: '2021 – Present',
-    desc: 'Digital assistance for elderly users, sports and food distribution, and environmental activities, working alongside people from diverse backgrounds.',
+    institution: 'Jurong Pioneer Junior College',
+    degree: 'GCE A-Level',
+    period: '2021 – 2022',
+    summary:
+      'Completed my pre-university education, studying H2 Chemistry, Economics, and Mathematics alongside H1 Physics, and developing my foundation in analytical and quantitative thinking.',
   },
   {
-    title: 'Data Analytics Club — Singapore Institute of Management',
-    period: 'Sep 2025 – Mar 2026',
-    desc: 'Worked on internal data science projects with peers, strengthening interest in AI and applied analytics.',
-  },
-  {
-    title: 'SIM-UOL CS Student Council Hackathon',
-    period: 'Nov 2024',
-    desc: 'Collaborated in a 5-member team to design and build a browser-based scrolling game in a 2-day hackathon.',
+    institution: 'Bedok View Secondary School',
+    degree: 'GCE O-Level',
+    period: '2017 – 2020',
+    summary: 'Completed my secondary education, building a broad academic foundation across the sciences and humanities.',
+    highlightsLabel: 'Highlights',
+    highlights: 'Basketball Team Captain (Senior Girls) · Captained the team in zonal tournaments · CCA Leader',
   },
 ];
+
+const experience = {
+  role: 'Associate Trainer',
+  org: 'HA Academy',
+  period: '2025 – Present',
+  desc: 'Supported and facilitated programmes for young people, including adventure camps and post-exam workshops. Worked with participants through activities and group sessions, helping create an engaging and supportive environment while developing my communication, facilitation, and people skills.',
+  focusLabel: 'Focus',
+  focus: 'Facilitation · Communication · Teamwork · Youth Engagement',
+  projectsLabel: 'Project Experience',
+  projectsDesc:
+    "Alongside this, I've worked on a range of projects spanning AI, machine learning, data, and software development — from hackathon builds to research prototypes and full-stack applications.",
+};
+
+const leadership = {
+  sections: [
+    {
+      label: 'Leadership',
+      items: [
+        {
+          title: 'Basketball Captain — Bedok View Secondary School',
+          desc: 'Led and supported my team through training, competitions, and team activities, developing my leadership, communication, and teamwork skills.',
+        },
+        {
+          title: 'Associate Trainer — HA Academy',
+          desc: 'Worked with young people through adventure camps and post-exam workshops, facilitating activities and creating an engaging, supportive environment.',
+        },
+      ],
+    },
+    {
+      label: 'Extracurriculars',
+      items: [
+        {
+          title: 'SIM Data Analytics Club',
+          desc: 'Worked on internal data science projects with peers, exploring applications of data science and machine learning.',
+        },
+      ],
+    },
+    {
+      label: 'Hackathons',
+      items: [
+        {
+          title: 'Azure AI Hackathon',
+          desc: 'Participated in a competitive AI hackathon, developing an LLM-powered planning system using RAG, function calling, and multi-agent workflows within a limited timeframe.',
+        },
+        {
+          title: 'SIM-UOL CS Student Council Hackathon',
+          desc: 'Collaborated in a 5-member team to design and build a browser-based scrolling game within a 2-day hackathon, focusing on rapid development and coordination under time pressure.',
+        },
+      ],
+    },
+  ],
+};
 ---
 
-<div class="relative max-w-3xl mx-auto">
+<div class="relative max-w-5xl mx-auto">
   <span class="kicker">About</span>
-  <h2 class="page-heading mt-3">The person behind the code</h2>
+  <h2 class="page-heading mt-2">A bit about me</h2>
 
-  <p class="mt-6 max-w-2xl lead">
+  <p class="mt-4 max-w-2xl lead">
     Hi! I'm Sakthi, a final-year Computer Science student at the Singapore Institute of Management, pursuing
     the University of London BSc (Hons) in Computer Science.
   </p>
 
-  <div class="mt-10 max-w-xl border-l-2 border-white/10 pl-5">
-    <p class="font-semibold text-white/90">Singapore Institute of Management – University of London</p>
-    <p class="mt-1 text-sm text-white/50">BSc (Honours) in Computer Science · Expected Sep 2026</p>
-    <p class="mt-3 text-sm body-text">
-      Coursework: AI &amp; ML, OOP, Algorithms &amp; Data Structures, Computer Security, NLP, Data Science,
-      Discrete &amp; Computational Mathematics, Software Design &amp; Development
-    </p>
+  <div class="mt-6 max-w-3xl rounded-2xl border border-white/10 bg-charcoal-900/50 overflow-hidden">
+    <div class="flex" id="about-tab-bar">
+      <button type="button" class="tab-seg flex-1" data-tab="education" aria-pressed="true">Education</button>
+      <button type="button" class="tab-seg flex-1" data-tab="experience" aria-pressed="false">Experience</button>
+      <button type="button" class="tab-seg flex-1" data-tab="leadership" aria-pressed="false">Leadership &amp; Activities</button>
+    </div>
+
+    <div class="p-6 sm:p-8" id="about-tab-panels">
+      <div class="tab-panel" data-panel="education">
+        {education.map((edu, i) => (
+          <div class={`grid grid-cols-1 sm:grid-cols-[112px_1fr] gap-x-6 gap-y-2 ${i === 0 ? '' : 'mt-6 pt-6 border-t border-white/[0.06]'}`}>
+            <p class="meta-text sm:pt-1">{edu.period}</p>
+            <div class="relative pl-6 border-l-2 border-white/10">
+              <span class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-accent"></span>
+              <p class="font-semibold text-white/90">{edu.institution}</p>
+              <p class="mt-1 text-sm text-white/50">{edu.degree}</p>
+              {edu.summary && <p class="mt-3 text-sm body-text">{edu.summary}</p>}
+              {edu.focus && (
+                <div class="mt-3">
+                  <p class="meta-text">{edu.focusLabel}</p>
+                  <p class="mt-1 text-sm body-text">{edu.focus}</p>
+                </div>
+              )}
+              {edu.highlights && (
+                <div class="mt-3">
+                  <p class="meta-text">{edu.highlightsLabel}</p>
+                  <p class="mt-1 text-sm body-text">{edu.highlights}</p>
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div class="tab-panel" data-panel="experience" hidden>
+        <div class="grid grid-cols-1 sm:grid-cols-[112px_1fr] gap-x-6 gap-y-2">
+          <p class="meta-text sm:pt-1">{experience.period}</p>
+          <div class="relative pl-6 border-l-2 border-white/10">
+            <span class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-accent"></span>
+            <p class="font-semibold text-white/90">{experience.role}</p>
+            <p class="mt-1 text-sm text-white/50">{experience.org}</p>
+            <p class="mt-3 text-sm body-text">{experience.desc}</p>
+            <div class="mt-3">
+              <p class="meta-text">{experience.focusLabel}</p>
+              <p class="mt-1 text-sm body-text">{experience.focus}</p>
+            </div>
+          </div>
+        </div>
+
+        <div class="mt-6 pt-6 border-t border-white/[0.06]">
+          <p class="meta-text">{experience.projectsLabel}</p>
+          <p class="mt-3 text-sm body-text">{experience.projectsDesc}</p>
+          <a href="/projects" class="mt-4 inline-block meta-text hover:text-white transition-colors">
+            View all projects →
+          </a>
+        </div>
+      </div>
+
+      <div class="tab-panel" data-panel="leadership" hidden>
+        {leadership.sections.map((section, i) => (
+          <div class={i === 0 ? '' : 'mt-6 pt-6 border-t border-white/[0.06]'}>
+            <p class="meta-text">{section.label}</p>
+            <div class="mt-3 space-y-4">
+              {section.items.map((item) => (
+                <div class="border-l-2 border-white/10 pl-4">
+                  <p class="font-semibold text-white/90">{item.title}</p>
+                  <p class="mt-1 text-sm body-text">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   </div>
 
-  <div class="mt-14 max-w-2xl">
+  <div class="mt-10 max-w-2xl">
     <h3 class="kicker">What drives me</h3>
     <p class="mt-4 body-text">
-      I'm fascinated by how artificial intelligence, machine learning, and data can solve meaningful,
-      real-world problems, and just as driven by the software engineering that brings those ideas to life.
-      I enjoy exploring data and building practical solutions, motivated by understanding not just what works,
-      but why.
+      I'm fascinated by how artificial intelligence, machine learning, and data can be used to solve
+      meaningful, real-world problems. I also enjoy the software engineering behind those ideas, from
+      exploring and understanding data to turning concepts into practical systems.
     </p>
     <p class="mt-4 body-text">
-      I also enjoy teaching and mentoring, whether working with young people, collaborating with teammates, or
-      sharing something I've learned. Breaking down complex ideas into concepts others can grasp with
-      confidence is genuinely rewarding to me.
+      I'm naturally curious and enjoy understanding not just what works, but why. I'm looking for
+      opportunities where I can keep learning, build useful things, and work on problems that have a real
+      purpose.
     </p>
   </div>
 
-  <div class="mt-14">
+  <div class="mt-10">
     <h3 class="kicker">Outside of tech</h3>
     <div class="mt-4 flex flex-wrap gap-2">
       {pills.map((pill) => (
@@ -71,31 +194,16 @@ const involvement = [
     </div>
   </div>
 
-  <div class="mt-14">
-    <h3 class="kicker">Leadership &amp; involvement</h3>
-    <div class="mt-5 space-y-6">
-      {involvement.map((item) => (
-        <div class="border-l-2 border-white/10 pl-4">
-          <div class="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-            <span class="font-semibold text-white/90">{item.title}</span>
-            <span class="meta-text">{item.period}</span>
-          </div>
-          <p class="mt-1 text-sm body-text">{item.desc}</p>
-        </div>
-      ))}
-    </div>
-  </div>
-
-  <p class="mt-14 max-w-2xl body-text">
+  <p class="mt-10 max-w-2xl body-text">
     I'm excited by opportunities in artificial intelligence, machine learning, and data, alongside
     strengthening my software engineering foundations. Above all, I'm motivated by solving meaningful
     problems and the chance to keep learning.
   </p>
 
-  <div class="mt-16 flex flex-wrap gap-4">
+  <div class="mt-10 flex flex-wrap gap-4">
     <a
       href="/resume.pdf"
-      class="px-5 py-2.5 rounded-lg bg-accent text-white text-sm font-semibold hover:bg-accent-dark transition-colors"
+      class="px-5 py-2.5 rounded-lg bg-accent text-charcoal-950 text-sm font-semibold hover:bg-accent-light transition-colors"
     >
       Resume
     </a>
@@ -107,3 +215,67 @@ const involvement = [
     </a>
   </div>
 </div>
+
+<script>
+  const bar = document.getElementById('about-tab-bar');
+  const panels = document.querySelectorAll<HTMLElement>('#about-tab-panels [data-panel]');
+
+  bar?.addEventListener('click', (e) => {
+    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.tab-seg');
+    if (!btn) return;
+
+    bar.querySelectorAll('.tab-seg').forEach((b) => b.setAttribute('aria-pressed', 'false'));
+    btn.setAttribute('aria-pressed', 'true');
+
+    const tab = btn.dataset.tab;
+    panels.forEach((p) => {
+      p.hidden = p.dataset.panel !== tab;
+    });
+  });
+</script>
+
+<style>
+  .tab-seg {
+    font-size: 12.5px;
+    padding: 12px 10px;
+    text-align: center;
+    color: rgba(255, 255, 255, 0.5);
+    background: transparent;
+    cursor: pointer;
+    border-right: 1px solid rgba(255, 255, 255, 0.08);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    transition: color 0.15s ease, background 0.15s ease;
+  }
+
+  .tab-seg:last-child {
+    border-right: none;
+  }
+
+  .tab-seg:hover {
+    color: rgba(255, 255, 255, 0.85);
+  }
+
+  .tab-seg[aria-pressed='true'] {
+    background: rgba(255, 255, 255, 0.06);
+    color: #ffffff;
+    font-weight: 600;
+  }
+
+  /* Replays automatically each time a panel goes from hidden (display:
+     none) to shown — browsers restart CSS animations on that transition,
+     so no extra JS is needed for the fade. */
+  .tab-panel {
+    animation: tab-fade-in 0.3s ease;
+  }
+
+  @keyframes tab-fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(4px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

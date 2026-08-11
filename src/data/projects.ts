@@ -30,27 +30,6 @@ const icons = {
   chart: '<path d="M3 17l6-6 4 4 8-8"/><circle cx="3" cy="17" r="1" fill="currentColor"/><circle cx="9" cy="11" r="1" fill="currentColor"/><circle cx="13" cy="15" r="1" fill="currentColor"/><circle cx="21" cy="7" r="1" fill="currentColor"/>',
 };
 
-export const categoryStyles: Record<string, string> = {
-  'AI / ML': 'bg-accent/15 text-accent-light border-accent/30',
-  'Software Engineering': 'bg-accent-purple/15 text-accent-purple border-accent-purple/30',
-  Creative: 'bg-amber-400/10 text-amber-300 border-amber-400/30',
-};
-
-// Plain text color per category, used for the bracket-style label ([AI / ML])
-// instead of a bordered pill/chip.
-export const categoryColor: Record<string, string> = {
-  'AI / ML': 'text-accent-light',
-  'Software Engineering': 'text-accent-purple',
-  Creative: 'text-amber-300',
-};
-
-// Left accent border color per category, used on the project card itself.
-export const categoryBorder: Record<string, string> = {
-  'AI / ML': 'border-l-accent-light',
-  'Software Engineering': 'border-l-accent-purple',
-  Creative: 'border-l-amber-400',
-};
-
 // NOTE: repoUrl currently points to the GitHub profile for all projects.
 // Swap in the exact repo link per project once available.
 export const projects: Project[] = [
@@ -85,7 +64,7 @@ export const projects: Project[] = [
     thumbLabel: 'notebook plot',
     thumbIcon: icons.chart,
     repoUrl: 'https://github.com/srssakthi-dev',
-    image: '/projects/brain-tumour-mri-detections.png',
+    image: '/projects/brain-tumour-mri-detections-v2.png',
     fit: 'contain',
   },
   {
@@ -103,7 +82,7 @@ export const projects: Project[] = [
     thumbLabel: 'app screenshot',
     thumbIcon: icons.browser,
     repoUrl: 'https://github.com/srssakthi-dev',
-    image: '/projects/event-management-webapp.png',
+    image: '/projects/event-management-webapp-v2.png',
   },
   {
     slug: 'crypto-cli-trading-simulator',
@@ -120,8 +99,7 @@ export const projects: Project[] = [
     thumbLabel: 'terminal screenshot',
     thumbIcon: icons.terminal,
     repoUrl: 'https://github.com/srssakthi-dev',
-    image: '/projects/crypto-cli-vscode-full-v2.png',
-    fit: 'contain',
+    image: '/projects/crypto-cli-trading-sim-v2.png',
   },
   {
     slug: 'hackathon-scrolling-game',
@@ -137,7 +115,7 @@ export const projects: Project[] = [
     thumbLabel: 'gameplay screenshot',
     thumbIcon: icons.game,
     repoUrl: 'https://github.com/srssakthi-dev',
-    image: '/projects/hackathon-scrolling-game.png',
+    image: '/projects/hackathon-scrolling-game-v3.png',
   },
   {
     slug: 'audio-workstation-dj-app',
@@ -155,7 +133,7 @@ export const projects: Project[] = [
     thumbIcon: icons.chart,
     // TODO: swap in the real repo link once this project is uploaded to GitHub.
     repoUrl: '#',
-    image: '/projects/audio-workstation-dj-app.png',
+    image: '/projects/audio-workstation-dj-app-v2.png',
   },
   {
     slug: 'comparative-text-classification',
@@ -172,6 +150,7 @@ export const projects: Project[] = [
     thumbLabel: 'notebook plot',
     thumbIcon: icons.chart,
     repoUrl: 'https://github.com/srssakthi-dev',
+    image: '/projects/spam-classification-notebook-v1.png',
     modelComparison: [
       { name: 'Naive Bayes', accuracy: 0.952, recall: 0.638 },
       { name: 'GloVe + LogReg', accuracy: 0.932, recall: 0.678 },
@@ -192,7 +171,7 @@ export const projects: Project[] = [
     thumbLabel: 'notebook plot',
     thumbIcon: icons.chart,
     repoUrl: 'https://github.com/srssakthi-dev',
-    image: '/projects/california-housing-distributions-v3.png',
+    image: '/projects/california-housing-distributions-v4.png',
     fit: 'contain',
   },
   {
@@ -210,6 +189,7 @@ export const projects: Project[] = [
     thumbLabel: 'notebook plot',
     thumbIcon: icons.chart,
     repoUrl: 'https://github.com/srssakthi-dev',
+    image: '/projects/resume-bigfive-traits-v1.png',
     pipeline: ['CSV data', 'Preprocessing (NLTK)', 'Feature extraction', 'Big Five mapping'],
   },
 ];

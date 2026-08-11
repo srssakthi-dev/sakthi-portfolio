@@ -1,21 +1,19 @@
 ---
 const links = [
-  { label: 'About', href: '/#about' },
-  { label: 'Experience', href: '/experience' },
+  { label: 'About', href: '/about' },
   { label: 'Projects', href: '/projects' },
   { label: 'Skills', href: '/skills' },
   { label: 'Contact', href: '/contact' },
-  { label: 'Resume', href: '/resume.pdf' },
 ];
 ---
 
-<header class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
-  <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
-    <a href="/" class="text-lg font-semibold tracking-tight text-white/80 hover:text-white transition-colors">
+<header class="fixed top-0 inset-x-0 z-50 px-6 sm:px-10 py-4 bg-charcoal-950/85 backdrop-blur-md border-b border-white/[0.06]">
+  <div class="max-w-5xl mx-auto flex items-center justify-between gap-3">
+    <a href="/" class="font-display text-lg font-semibold tracking-tight text-white/85 hover:text-white transition-colors">
       Sakthi
     </a>
 
-    <nav class="hidden md:flex items-center gap-x-5 text-sm text-white/50">
+    <nav class="hidden md:flex items-center gap-x-8 text-sm text-white/50">
       {links.map((link) => (
         <a href={link.href} class="hover:text-accent-light transition-colors">
           {link.label}
@@ -45,7 +43,7 @@ const links = [
 
   <nav
     id="nav-mobile"
-    class="md:hidden hidden mt-3 mx-4 rounded-xl border border-white/10 bg-black/90 backdrop-blur-sm overflow-hidden"
+    class="md:hidden hidden mt-3 mx-4 rounded-xl border border-white/10 bg-charcoal-900/95 backdrop-blur-sm overflow-hidden"
   >
     {links.map((link) => (
       <a
