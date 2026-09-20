@@ -1,34 +1,54 @@
 ---
 import Layout from '../layouts/Layout.astro';
-import { skillIcons } from '../data/skillIcons';
+import Button from '../components/ui/Button.astro';
 
+// Each group gets a color from the site's blue/teal accent family
+// (alternating, since there are more groups than hues) — purely
+// decorative section-coding, not meaningful categorization.
+// tagBg/tagFg feed the shared .tag-highlight component's
+// --tag-bg/--tag-fg overrides in global.css.
 const groups = [
   {
     label: 'Programming Languages',
-    skills: ['Python', 'JavaScript', 'TypeScript', 'C++', 'SQL'],
+    skills: ['Python', 'SQL', 'JavaScript', 'TypeScript', 'C++'],
+    tagBg: 'var(--color-accent)',
+    tagFg: 'var(--color-accent-dark)',
   },
   {
     label: 'Software & Web Development',
     skills: [
-      'Node.js', 'Express.js', 'HTML', 'CSS', 'REST APIs',
-      'Object-Oriented Programming', 'React Native',
+      'REST APIs', 'Node.js', 'Express.js', 'EJS', 'Object-Oriented Programming',
+      'React Native', 'Expo', 'HTML', 'CSS', 'p5.js',
     ],
+    tagBg: 'var(--color-teal)',
+    tagFg: 'var(--color-teal-dark)',
   },
   {
     label: 'AI, Machine Learning & Data Science',
-    skills: ['Azure AI Foundry', 'RAG', 'LangChain', 'PyTorch', 'TensorFlow', 'Scikit-learn'],
+    skills: [
+      'PyTorch', 'TensorFlow', 'Scikit-learn', 'LangChain', 'RAG', 'ChromaDB',
+      'Pandas', 'NumPy', 'Ollama', 'Whisper', 'Azure AI Foundry', 'Matplotlib', 'Seaborn', 'NLTK',
+    ],
+    tagBg: 'var(--color-accent)',
+    tagFg: 'var(--color-accent-dark)',
   },
   {
     label: 'Databases',
     skills: ['MySQL', 'SQLite'],
+    tagBg: 'var(--color-teal)',
+    tagFg: 'var(--color-teal-dark)',
   },
   {
     label: 'Tools & Platforms',
     skills: ['Git', 'GitLab (Basic)', 'Jupyter Notebook', 'Google Colab'],
+    tagBg: 'var(--color-accent)',
+    tagFg: 'var(--color-accent-dark)',
   },
   {
     label: 'Certifications',
     skills: ['AWS Cloud Foundations'],
+    tagBg: 'var(--color-teal)',
+    tagFg: 'var(--color-teal-dark)',
   },
 ];
 ---
@@ -36,8 +56,7 @@ const groups = [
 <Layout title="Skills">
   <main class="relative px-6 sm:px-10 pt-8 sm:pt-10 pb-24">
     <div class="relative max-w-5xl mx-auto">
-      <span class="kicker">Skills</span>
-      <h1 class="page-heading mt-3">What I work with</h1>
+      <h1 class="page-heading">Skills</h1>
 
       <div class="mt-8 space-y-8">
         {groups.map((group) => (
@@ -45,12 +64,7 @@ const groups = [
             <h2 class="kicker">{group.label}</h2>
             <div class="mt-4 flex flex-wrap gap-2">
               {group.skills.map((skill) => (
-                <span class="skill-pill flex items-center gap-2 text-sm px-4 py-1.5 rounded-full border border-white/15 text-white/70">
-                  {skillIcons[skill] && (
-                    <svg width="14" height="14" viewBox="0 0 24 24" class="flex-shrink-0" aria-hidden="true">
-                      <path d={skillIcons[skill]} fill="currentColor" />
-                    </svg>
-                  )}
+                <span class="tag-highlight" style={`--tag-bg: ${group.tagBg}; --tag-fg: ${group.tagFg};`}>
                   {skill}
                 </span>
               ))}
@@ -60,40 +74,9 @@ const groups = [
       </div>
 
       <div class="mt-10 flex flex-wrap gap-4">
-        <a
-          href="/projects"
-          class="px-5 py-2.5 rounded-lg bg-accent text-charcoal-950 text-sm font-semibold hover:bg-accent-light transition-colors"
-        >
-          See it in action
-        </a>
-        <a
-          href="/contact"
-          class="px-5 py-2.5 rounded-lg border border-white/15 text-white/70 text-sm font-medium hover:border-accent-light hover:text-accent-light transition-colors"
-        >
-          Get in touch
-        </a>
+        <Button href="/projects" variant="primary">See it in action</Button>
+        <Button href="/contact" variant="secondary">Get in touch</Button>
       </div>
     </div>
   </main>
 </Layout>
-
-<style>
-  .skill-pill {
-    color: rgba(255, 255, 255, 0.7);
-    transition: border-color 0.18s ease, color 0.18s ease;
-  }
-
-  .skill-pill svg {
-    color: rgba(255, 255, 255, 0.4);
-    transition: color 0.18s ease;
-  }
-
-  .skill-pill:hover {
-    border-color: var(--color-accent-light);
-    color: #ffffff;
-  }
-
-  .skill-pill:hover svg {
-    color: var(--color-accent-light);
-  }
-</style>

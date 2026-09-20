@@ -1,281 +1,204 @@
 ---
-// Shared About content — used both as a section embedded on the home
-// page (#about, reached from the nav) and standalone at /about. One
-// source of content, two places it can render.
+import Button from '../ui/Button.astro';
 
-const pills = ['Guitar', 'Chess', 'Baking', 'Coffee & Tea', 'Football'];
+// About page content, rendered standalone at /about (not embedded
+// anywhere else — the home page's Hero links out to it instead).
+//
+// Redesigned from a tabbed card into a flat grid of category cards
+// (Education, Experience, Hackathons, Leadership, Activities,
+// Volunteering) — content pulled directly from the resume so dates and
+// wording stay accurate instead of paraphrased.
 
 const education = [
   {
-    institution: 'Singapore Institute of Management',
-    degree: 'University of London · BSc (Hons) Computer Science',
+    title: 'Singapore Institute of Management',
+    subtitle: 'University of London · BSc (Hons) Computer Science',
     period: 'Expected Sep 2026',
-    summary:
-      'Currently completing my Computer Science degree, with a growing interest in Artificial Intelligence, Machine Learning, Data, and Software Development.',
-    focusLabel: 'Academic areas',
-    focus:
-      'AI & Machine Learning · Data Science · NLP · Algorithms & Data Structures · Databases · Software Development · Computer Security',
+    location: 'Singapore',
+    bullets: [
+      'Coursework: AI & ML, OOP, Algorithms & Data Structures, Computer Security, NLP, Data Science, Discrete & Computational Mathematics, Software Design & Development.',
+    ],
   },
   {
-    institution: 'Jurong Pioneer Junior College',
-    degree: 'GCE A-Level',
+    title: 'Jurong Pioneer Junior College',
+    subtitle: 'GCE A-Level',
     period: '2021 – 2022',
-    summary:
-      'Completed my pre-university education, studying H2 Chemistry, Economics, and Mathematics alongside H1 Physics, and developing my foundation in analytical and quantitative thinking.',
-  },
-  {
-    institution: 'Bedok View Secondary School',
-    degree: 'GCE O-Level',
-    period: '2017 – 2020',
-    summary: 'Completed my secondary education, building a broad academic foundation across the sciences and humanities.',
-    highlightsLabel: 'Highlights',
-    highlights: 'Basketball Team Captain (Senior Girls) · Captained the team in zonal tournaments · CCA Leader',
+    location: 'Singapore',
   },
 ];
 
-const experience = {
-  role: 'Associate Trainer',
-  org: 'HA Academy',
-  period: '2025 – Present',
-  desc: 'Supported and facilitated programmes for young people, including adventure camps and post-exam workshops. Worked with participants through activities and group sessions, helping create an engaging and supportive environment while developing my communication, facilitation, and people skills.',
-  focusLabel: 'Focus',
-  focus: 'Facilitation · Communication · Teamwork · Youth Engagement',
-  projectsLabel: 'Project Experience',
-  projectsDesc:
-    "Alongside this, I've worked on a range of projects spanning AI, machine learning, data, and software development — from hackathon builds to research prototypes and full-stack applications.",
-};
+const experience = [
+  {
+    title: 'Associate Trainer',
+    subtitle: 'HA Academy (Flexible/Ad hoc)',
+    period: 'Oct 2024 – Present',
+    location: 'Singapore',
+    bullets: [
+      'Facilitated workshops for 100+ students across schools, developing communication and presentation skills.',
+      'Mentored students during camps, demonstrating adaptability and leadership in fast-paced environments.',
+    ],
+  },
+];
 
-const leadership = {
-  sections: [
-    {
-      label: 'Leadership',
-      items: [
-        {
-          title: 'Basketball Captain — Bedok View Secondary School',
-          desc: 'Led and supported my team through training, competitions, and team activities, developing my leadership, communication, and teamwork skills.',
-        },
-        {
-          title: 'Associate Trainer — HA Academy',
-          desc: 'Worked with young people through adventure camps and post-exam workshops, facilitating activities and creating an engaging, supportive environment.',
-        },
-      ],
-    },
-    {
-      label: 'Extracurriculars',
-      items: [
-        {
-          title: 'SIM Data Analytics Club',
-          desc: 'Worked on internal data science projects with peers, exploring applications of data science and machine learning.',
-        },
-      ],
-    },
-    {
-      label: 'Hackathons',
-      items: [
-        {
-          title: 'Azure AI Hackathon',
-          desc: 'Participated in a competitive AI hackathon, developing an LLM-powered planning system using RAG, function calling, and multi-agent workflows within a limited timeframe.',
-        },
-        {
-          title: 'SIM-UOL CS Student Council Hackathon',
-          desc: 'Collaborated in a 5-member team to design and build a browser-based scrolling game within a 2-day hackathon, focusing on rapid development and coordination under time pressure.',
-        },
-      ],
-    },
-  ],
-};
+const hackathons = [
+  {
+    title: 'Microsoft Azure AI Hackathon · SIM IT Club HackXperience 2026',
+    period: 'Jul 2026',
+    bullets: [
+      'Collaborated on an AI-powered project coordination system using Microsoft Azure AI Foundry and multi-agent workflows.',
+      'Integrated RAG with Azure AI Search and contributed to backend development.',
+    ],
+  },
+  {
+    title: 'SIM-UOL CS Student Council Hackathon',
+    period: 'Nov 2024',
+    bullets: [
+      'Developed a browser-based fitness game with a 5-member team, promoting physical activity through gamification.',
+    ],
+  },
+];
+
+const leadership = [
+  {
+    title: 'Basketball Team Captain',
+    subtitle: 'Bedok View Secondary School',
+    period: 'Jan 2019 – Dec 2020',
+    bullets: [
+      'Led the school basketball team during competitions, coordinating training, teamwork, and on-court communication.',
+    ],
+  },
+];
+
+const activities = [
+  {
+    title: 'Data Analytics Club',
+    subtitle: 'Singapore Institute of Management',
+    period: 'Sep 2025 – Mar 2026',
+    bullets: [
+      'Worked on internal data science projects with peers, improving understanding of data analysis concepts and strengthening interest in AI and applied analytics.',
+    ],
+  },
+];
+
+const volunteering = [
+  {
+    title: 'Team Nila',
+    subtitle: 'Sports & Community Volunteering',
+    bullets: [
+      'Engaged in sports programmes and food distribution efforts for underprivileged communities.',
+    ],
+  },
+  {
+    title: 'Youth Corps Singapore',
+    subtitle: 'Community & Environmental Volunteering',
+    bullets: [
+      'Contributed to environmental activities and community workshops supporting local communities.',
+    ],
+  },
+  {
+    title: 'Singapore Computer Society (SCS)',
+    subtitle: 'Digital Support & Community Outreach',
+    bullets: [
+      'Supported digital assistance activities helping elderly users navigate technology and services (e.g. SimplyGo).',
+    ],
+  },
+];
+
+const leadershipActivities = [...leadership, ...activities];
+
+const cards = [
+  { label: 'Education', entries: education, wide: true },
+  { label: 'Experience', entries: experience },
+  { label: 'Hackathons', entries: hackathons },
+  { label: 'Leadership & Activities', entries: leadershipActivities },
+  { label: 'Volunteer Activities', entries: volunteering, period: '2021 – Present' },
+];
 ---
 
 <div class="relative max-w-5xl mx-auto">
-  <span class="kicker">About</span>
-  <h2 class="page-heading mt-2">A bit about me</h2>
+  <h1 class="page-heading max-w-3xl mx-auto">About</h1>
 
-  <p class="mt-4 max-w-2xl lead">
-    Hi! I'm Sakthi, a final-year Computer Science student at the Singapore Institute of Management, pursuing
-    the University of London BSc (Hons) in Computer Science.
-  </p>
-
-  <div class="mt-6 max-w-3xl rounded-2xl border border-white/10 bg-charcoal-900/50 overflow-hidden">
-    <div class="flex" id="about-tab-bar">
-      <button type="button" class="tab-seg flex-1" data-tab="education" aria-pressed="true">Education</button>
-      <button type="button" class="tab-seg flex-1" data-tab="experience" aria-pressed="false">Experience</button>
-      <button type="button" class="tab-seg flex-1" data-tab="leadership" aria-pressed="false">Leadership &amp; Activities</button>
-    </div>
-
-    <div class="p-6 sm:p-8" id="about-tab-panels">
-      <div class="tab-panel" data-panel="education">
-        {education.map((edu, i) => (
-          <div class={`grid grid-cols-1 sm:grid-cols-[112px_1fr] gap-x-6 gap-y-2 ${i === 0 ? '' : 'mt-6 pt-6 border-t border-white/[0.06]'}`}>
-            <p class="meta-text sm:pt-1">{edu.period}</p>
-            <div class="relative pl-6 border-l-2 border-white/10">
-              <span class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-accent"></span>
-              <p class="font-semibold text-white/90">{edu.institution}</p>
-              <p class="mt-1 text-sm text-white/50">{edu.degree}</p>
-              {edu.summary && <p class="mt-3 text-sm body-text">{edu.summary}</p>}
-              {edu.focus && (
-                <div class="mt-3">
-                  <p class="meta-text">{edu.focusLabel}</p>
-                  <p class="mt-1 text-sm body-text">{edu.focus}</p>
-                </div>
-              )}
-              {edu.highlights && (
-                <div class="mt-3">
-                  <p class="meta-text">{edu.highlightsLabel}</p>
-                  <p class="mt-1 text-sm body-text">{edu.highlights}</p>
-                </div>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <div class="tab-panel" data-panel="experience" hidden>
-        <div class="grid grid-cols-1 sm:grid-cols-[112px_1fr] gap-x-6 gap-y-2">
-          <p class="meta-text sm:pt-1">{experience.period}</p>
-          <div class="relative pl-6 border-l-2 border-white/10">
-            <span class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-accent"></span>
-            <p class="font-semibold text-white/90">{experience.role}</p>
-            <p class="mt-1 text-sm text-white/50">{experience.org}</p>
-            <p class="mt-3 text-sm body-text">{experience.desc}</p>
-            <div class="mt-3">
-              <p class="meta-text">{experience.focusLabel}</p>
-              <p class="mt-1 text-sm body-text">{experience.focus}</p>
-            </div>
-          </div>
-        </div>
-
-        <div class="mt-6 pt-6 border-t border-white/[0.06]">
-          <p class="meta-text">{experience.projectsLabel}</p>
-          <p class="mt-3 text-sm body-text">{experience.projectsDesc}</p>
-          <a href="/projects" class="mt-4 inline-block meta-text hover:text-white transition-colors">
-            View all projects →
-          </a>
-        </div>
-      </div>
-
-      <div class="tab-panel" data-panel="leadership" hidden>
-        {leadership.sections.map((section, i) => (
-          <div class={i === 0 ? '' : 'mt-6 pt-6 border-t border-white/[0.06]'}>
-            <p class="meta-text">{section.label}</p>
-            <div class="mt-3 space-y-4">
-              {section.items.map((item) => (
-                <div class="border-l-2 border-white/10 pl-4">
-                  <p class="font-semibold text-white/90">{item.title}</p>
-                  <p class="mt-1 text-sm body-text">{item.desc}</p>
-                </div>
-              ))}
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
-  </div>
-
-  <div class="mt-10 max-w-2xl">
-    <h3 class="kicker">What drives me</h3>
-    <p class="mt-4 body-text">
-      I'm fascinated by how artificial intelligence, machine learning, and data can be used to solve
-      meaningful, real-world problems. I also enjoy the software engineering behind those ideas, from
-      exploring and understanding data to turning concepts into practical systems.
+  <div class="mt-4 max-w-3xl mx-auto">
+    <p class="body-text">
+      I'm a Computer Science undergraduate interested in using AI, data and software development to
+      create solutions that have a meaningful purpose in the real world.
     </p>
-    <p class="mt-4 body-text">
-      I'm naturally curious and enjoy understanding not just what works, but why. I'm looking for
-      opportunities where I can keep learning, build useful things, and work on problems that have a real
-      purpose.
+    <p class="mt-3 body-text">
+      I enjoy working with real-world data, building and training machine learning models, and
+      developing AI-powered systems to solve practical problems. I'm naturally curious and like to
+      understand what I'm working with in depth, learning through both exploration and building. I also
+      enjoy sharing what I learn through teaching and mentoring others.
     </p>
   </div>
 
-  <div class="mt-10">
-    <h3 class="kicker">Outside of tech</h3>
-    <div class="mt-4 flex flex-wrap gap-2">
-      {pills.map((pill) => (
-        <span class="text-sm px-4 py-1.5 rounded-full border border-white/15 text-white/70">{pill}</span>
-      ))}
-    </div>
+  <div class="mt-10 max-w-3xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-5">
+    {cards.map((card) => (
+      <div class={`group surface-card p-5 sm:p-6 ${card.wide ? 'sm:col-span-2' : ''}`}>
+        <div class="flex items-baseline justify-between gap-3">
+          <p class="font-display font-semibold text-accent-light">{card.label}</p>
+          {card.period && <span class="text-xs text-ink/40 flex-shrink-0">{card.period}</span>}
+        </div>
+
+        <div class="mt-4 space-y-8">
+          {card.entries.map((entry) => (
+            <div class="relative pl-5 border-l-2 border-ink/10">
+              <span class="absolute -left-[5px] top-1.5 w-2 h-2 rounded-full bg-accent transition-colors group-hover:bg-accent-light"></span>
+              <p class="text-sm font-semibold text-ink/90">{entry.title}</p>
+              {entry.subtitle && <p class="mt-0.5 text-sm text-ink/50">{entry.subtitle}</p>}
+
+              {(entry.period || entry.location) && (
+                <div class="mt-1.5 flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-ink/45">
+                  {entry.period && (
+                    <span class="flex items-center gap-1">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0">
+                        <rect x="3" y="4" width="18" height="18" rx="2" />
+                        <line x1="16" y1="2" x2="16" y2="6" />
+                        <line x1="8" y1="2" x2="8" y2="6" />
+                        <line x1="3" y1="10" x2="21" y2="10" />
+                      </svg>
+                      {entry.period}
+                    </span>
+                  )}
+                  {entry.location && (
+                    <span class="flex items-center gap-1">
+                      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" class="flex-shrink-0">
+                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+                        <circle cx="12" cy="10" r="3" />
+                      </svg>
+                      {entry.location}
+                    </span>
+                  )}
+                </div>
+              )}
+
+              {entry.bullets && (
+                <ul class="mt-3 space-y-2.5">
+                  {entry.bullets.map((b) => (
+                    <li class="flex gap-3 text-sm text-ink/75 leading-relaxed">
+                      <span class="text-accent">›</span>
+                      <span>{b}</span>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          ))}
+        </div>
+      </div>
+    ))}
   </div>
 
-  <p class="mt-10 max-w-2xl body-text">
-    I'm excited by opportunities in artificial intelligence, machine learning, and data, alongside
-    strengthening my software engineering foundations. Above all, I'm motivated by solving meaningful
-    problems and the chance to keep learning.
-  </p>
+  <div class="mt-10 max-w-3xl mx-auto surface-card p-5 sm:p-6">
+    <p class="font-display font-semibold text-accent-light">If you've made it this far, haha</p>
+    <p class="mt-4 text-sm text-ink/75 leading-relaxed">
+      I play basketball, guitar, and bake for friends when I get the chance. I love getting lost in a
+      good book, plotting my next move over a game of chess, and sipping a good cup of coffee through it
+      all.
+    </p>
+  </div>
 
-  <div class="mt-10 flex flex-wrap gap-4">
-    <a
-      href="/resume.pdf"
-      class="px-5 py-2.5 rounded-lg bg-accent text-charcoal-950 text-sm font-semibold hover:bg-accent-light transition-colors"
-    >
-      Resume
-    </a>
-    <a
-      href="/contact"
-      class="px-5 py-2.5 rounded-lg border border-white/15 text-white/70 text-sm font-medium hover:border-accent-light hover:text-accent-light transition-colors"
-    >
-      Get in touch
-    </a>
+  <div class="mt-10 max-w-3xl mx-auto flex flex-wrap gap-4">
+    <Button href="/projects" variant="primary">View my work</Button>
+    <Button href="/contact" variant="secondary">Get in touch</Button>
   </div>
 </div>
-
-<script>
-  const bar = document.getElementById('about-tab-bar');
-  const panels = document.querySelectorAll<HTMLElement>('#about-tab-panels [data-panel]');
-
-  bar?.addEventListener('click', (e) => {
-    const btn = (e.target as HTMLElement).closest<HTMLButtonElement>('.tab-seg');
-    if (!btn) return;
-
-    bar.querySelectorAll('.tab-seg').forEach((b) => b.setAttribute('aria-pressed', 'false'));
-    btn.setAttribute('aria-pressed', 'true');
-
-    const tab = btn.dataset.tab;
-    panels.forEach((p) => {
-      p.hidden = p.dataset.panel !== tab;
-    });
-  });
-</script>
-
-<style>
-  .tab-seg {
-    font-size: 12.5px;
-    padding: 12px 10px;
-    text-align: center;
-    color: rgba(255, 255, 255, 0.5);
-    background: transparent;
-    cursor: pointer;
-    border-right: 1px solid rgba(255, 255, 255, 0.08);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    transition: color 0.15s ease, background 0.15s ease;
-  }
-
-  .tab-seg:last-child {
-    border-right: none;
-  }
-
-  .tab-seg:hover {
-    color: rgba(255, 255, 255, 0.85);
-  }
-
-  .tab-seg[aria-pressed='true'] {
-    background: rgba(255, 255, 255, 0.06);
-    color: #ffffff;
-    font-weight: 600;
-  }
-
-  /* Replays automatically each time a panel goes from hidden (display:
-     none) to shown — browsers restart CSS animations on that transition,
-     so no extra JS is needed for the fade. */
-  .tab-panel {
-    animation: tab-fade-in 0.3s ease;
-  }
-
-  @keyframes tab-fade-in {
-    from {
-      opacity: 0;
-      transform: translateY(4px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-</style>

@@ -1,0 +1,21 @@
+---
+// Shared pill component — only used by the Projects page's category
+// filter toggle now (Skills and the project tech tags moved to the
+// separate .tag-highlight style instead). "filter" is the only variant
+// with any live usage; the border/fill itself lives in global.css's
+// .pill / .pill--filter.
+//
+// Pass `as="button"` for an interactive pill; defaults to a plain tag.
+interface Props {
+  as?: 'span' | 'button';
+  variant?: 'filter';
+  class?: string;
+}
+
+const { as = 'span', variant = 'filter', class: className = '', ...rest } = Astro.props;
+const Tag = as;
+---
+
+<Tag class={`pill pill--${variant} ${className}`.trim()} {...rest}>
+  <slot />
+</Tag>

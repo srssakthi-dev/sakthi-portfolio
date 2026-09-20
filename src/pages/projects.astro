@@ -1,55 +1,62 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import Button from '../components/ui/Button.astro';
+import Pill from '../components/ui/Pill.astro';
 import { projects } from '../data/projects';
 
-const categories = ['All', ...new Set(projects.map((p) => p.category))];
+// Fixed tab order (AI/ML leads since it's the bulk of the work), rather
+// than relying on whatever order categories first appear in the data.
+const CATEGORY_ORDER = ['All', 'AI / ML', 'Software Engineering', 'Creative'];
+const presentCategories = new Set(projects.map((p) => p.category));
+const categories = CATEGORY_ORDER.filter((cat) => cat === 'All' || presentCategories.has(cat as any));
 ---
 
 <Layout title="Projects">
   <main class="relative px-6 sm:px-10 pt-8 sm:pt-10 pb-24">
-    <div class="relative max-w-5xl mx-auto">
-      <span class="kicker">Projects</span>
-      <h1 class="page-heading mt-3">Some things I've built</h1>
+    <div class="relative max-w-5xl lg:max-w-6xl mx-auto">
+      <h1 class="page-heading">Projects</h1>
 
       <div class="mt-6 flex flex-wrap gap-2" id="filter-bar">
         {categories.map((cat) => (
-          <button
+          <Pill
+            as="button"
+            variant="filter"
             type="button"
-            class="filter-pill"
+            class="filter-pill text-[12.5px] px-3.5 py-1.5"
             data-filter={cat}
             aria-pressed={cat === 'All' ? 'true' : 'false'}
           >
             {cat}
-          </button>
+          </Pill>
         ))}
       </div>
 
       <p class="mt-4 meta-text" id="filter-empty" hidden>No projects in this category yet.</p>
 
-      <div class="mt-8 space-y-10 sm:space-y-12" id="project-grid">
+      <div class="mt-8 space-y-10 sm:space-y-12 lg:space-y-0 lg:grid lg:grid-cols-3 lg:gap-x-8 lg:gap-y-12 lg:items-start" id="project-grid">
         {projects.map((project) => {
           const primaryHref = project.notebookUrl || project.repoUrl;
           const primaryLabel = project.notebookUrl ? 'View notebook' : 'View on GitHub';
           return (
-            <div id={project.slug} class="grid grid-cols-1 sm:grid-cols-[320px_1fr] gap-6 sm:gap-10 items-start scroll-mt-24" data-category={project.category}>
-              <a href={primaryHref} class="block rounded-lg overflow-hidden bg-charcoal-800 aspect-[4/3]">
+            <div id={project.slug} class="grid grid-cols-1 sm:grid-cols-[320px_minmax(0,1fr)] lg:grid-cols-1 gap-6 sm:gap-10 lg:gap-4 items-start scroll-mt-24" data-category={project.category}>
+              <a href={primaryHref} class="image-frame block rounded-lg overflow-hidden bg-charcoal-800 aspect-[4/3]">
                 {project.image ? (
                   <img
                     src={project.image}
                     alt={project.title}
                     class="w-full h-full object-cover"
-                    style={project.fit === 'contain' ? 'object-fit: contain; background: #0a0a0a;' : ''}
+                    style={project.fit === 'contain' ? 'object-fit: contain; background: var(--color-charcoal-800);' : ''}
                   />
                 ) : (
-                  <div class="w-full h-full flex items-center justify-center gap-2 text-white/25">
+                  <div class="w-full h-full flex items-center justify-center gap-2 text-ink/25">
                     <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" set:html={project.thumbIcon} />
                   </div>
                 )}
               </a>
 
-              <div>
+              <div class="surface-card p-4 sm:p-5 min-w-0">
                 <p class="meta-text">{project.category} &middot; {project.period}</p>
-                <a href={primaryHref} class="mt-2 block font-display font-semibold text-lg text-white/90 hover:text-white transition-colors">
+                <a href={primaryHref} class="mt-2 block font-display font-semibold text-lg text-ink/90 hover:text-accent-light transition-colors">
                   {project.title}
                 </a>
                 <p class="mt-2 text-sm body-text max-w-xl">{project.summary}</p>
@@ -84,20 +91,19 @@ const categories = ['All', ...new Set(projects.map((p) => p.category))];
 
                 <div class="mt-4 flex flex-wrap gap-2">
                   {project.tech.map((t) => (
-                    <span class="text-xs px-3.5 py-1.5 rounded-full border border-white/15 text-white/65">{t}</span>
+                    <span class="tag-highlight">{t}</span>
                   ))}
                 </div>
 
-                <div class="mt-4 flex items-center gap-4">
-                  <a href={primaryHref} class="meta-text hover:text-white transition-colors">
-                    {primaryLabel} →
-                  </a>
-                  {project.demoUrl && (
-                    <a href={project.demoUrl} class="meta-text hover:text-white transition-colors">
-                      ▶ Demo
-                    </a>
-                  )}
+                <div class="mt-3">
+                  <a href={primaryHref} class="project-link">{primaryLabel} &rarr;</a>
                 </div>
+
+                {project.demoUrl && (
+                  <div class="mt-2">
+                    <a href={project.demoUrl} class="project-link">&#9654; Demo</a>
+                  </div>
+                )}
               </div>
             </div>
           );
@@ -105,12 +111,7 @@ const categories = ['All', ...new Set(projects.map((p) => p.category))];
       </div>
 
       <div class="mt-10 flex flex-wrap gap-4">
-        <a
-          href="https://github.com/srssakthi-dev"
-          class="px-5 py-2.5 rounded-lg border border-white/15 text-white/70 text-sm font-medium hover:border-white/35 hover:text-white transition-colors"
-        >
-          See more on GitHub →
-        </a>
+        <Button href="https://github.com/srssakthi-dev" variant="secondary">See more on GitHub →</Button>
       </div>
     </div>
   </main>
@@ -165,27 +166,31 @@ const categories = ['All', ...new Set(projects.map((p) => p.category))];
 </script>
 
 <style>
-  .filter-pill {
-    font-size: 12.5px;
-    padding: 6px 14px;
-    border-radius: 20px;
-    border: 1px solid rgba(255, 255, 255, 0.12);
-    color: rgba(255, 255, 255, 0.55);
-    background: transparent;
-    cursor: pointer;
-    transition: border-color 0.15s ease, color 0.15s ease, background 0.15s ease;
+  /* .tag-highlight moved to global.css so the Skills page can share it
+     too — it's no longer page-scoped here. */
+
+  /* The card's own repo/notebook/demo links — underlined accent text,
+     sitting below the tech tags now instead of up next to the date. */
+  .project-link {
+    display: inline-block;
+    font-size: 12px;
+    font-weight: 600;
+    color: var(--color-accent-dark);
+    text-decoration: underline;
+    text-decoration-color: color-mix(in srgb, var(--color-accent-dark) 35%, transparent);
+    text-underline-offset: 3px;
+    transition: color 0.15s ease, text-decoration-color 0.15s ease;
   }
 
-  .filter-pill:hover {
-    border-color: rgba(255, 255, 255, 0.3);
-    color: rgba(255, 255, 255, 0.9);
+  .project-link:hover {
+    color: var(--color-accent);
+    text-decoration-color: var(--color-accent);
   }
 
-  .filter-pill[aria-pressed='true'] {
-    border-color: rgba(255, 255, 255, 0.4);
-    background: rgba(255, 255, 255, 0.08);
-    color: #ffffff;
-  }
+  /* .filter-pill itself now carries no visual rules — its look comes
+     entirely from the shared <Pill> component's .pill class in
+     global.css. It's kept purely as a hook for the filter script below
+     to query, so the two stay decoupled from styling. */
 
   /* Pipeline step chain — replaces the old "A → B → C" text line with
      bordered steps and an accent chevron, final step highlighted. */
@@ -201,15 +206,15 @@ const categories = ['All', ...new Set(projects.map((p) => p.category))];
     font-size: 11px;
     padding: 7px 12px;
     border-radius: 6px;
-    border: 1px solid rgba(255, 255, 255, 0.14);
-    color: rgba(255, 255, 255, 0.75);
+    border: 1px solid rgba(72, 64, 55, 0.16);
+    color: rgba(58, 53, 48, 0.75);
     white-space: nowrap;
     transition: border-color 0.2s ease, color 0.2s ease;
   }
 
   .pipeline-step:hover {
-    border-color: rgba(255, 255, 255, 0.3);
-    color: #ffffff;
+    border-color: rgba(72, 64, 55, 0.35);
+    color: var(--color-ink);
   }
 
   .pipeline-step--final {
@@ -229,7 +234,7 @@ const categories = ['All', ...new Set(projects.map((p) => p.category))];
     justify-content: space-between;
     font-family: var(--font-mono);
     font-size: 11px;
-    color: rgba(255, 255, 255, 0.55);
+    color: rgba(58, 53, 48, 0.6);
     margin-bottom: 5px;
   }
 
@@ -240,7 +245,7 @@ const categories = ['All', ...new Set(projects.map((p) => p.category))];
   .model-bar-track {
     height: 5px;
     border-radius: 3px;
-    background: rgba(255, 255, 255, 0.08);
+    background: rgba(72, 64, 55, 0.1);
     overflow: hidden;
   }
 

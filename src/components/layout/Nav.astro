@@ -7,13 +7,13 @@ const links = [
 ];
 ---
 
-<header class="fixed top-0 inset-x-0 z-50 px-6 sm:px-10 py-4 bg-charcoal-950/85 backdrop-blur-md border-b border-white/[0.06]">
-  <div class="max-w-5xl mx-auto flex items-center justify-between gap-3">
-    <a href="/" class="font-display text-lg font-semibold tracking-tight text-white/85 hover:text-white transition-colors">
-      Sakthi
+<header class="fixed top-0 inset-x-0 z-50 px-6 sm:px-10 py-4 bg-charcoal-950/85 backdrop-blur-md border-b border-ink/[0.06]">
+  <div class="max-w-5xl lg:max-w-7xl mx-auto flex items-center justify-between gap-3">
+    <a href="/" class="logo-link flex items-center" aria-label="Sakthi — home">
+      <img src="/logo.png" alt="" width="47" height="40" class="h-8 w-auto" />
     </a>
 
-    <nav class="hidden md:flex items-center gap-x-8 text-sm text-white/50">
+    <nav class="hidden md:flex items-center gap-x-8 text-sm text-ink/50">
       {links.map((link) => (
         <a href={link.href} class="hover:text-accent-light transition-colors">
           {link.label}
@@ -24,7 +24,7 @@ const links = [
     <button
       type="button"
       id="nav-toggle"
-      class="md:hidden relative w-9 h-9 flex items-center justify-center text-white/70 hover:text-white transition-colors"
+      class="md:hidden relative w-9 h-9 flex items-center justify-center text-ink/70 hover:text-ink transition-colors"
       aria-label="Open menu"
       aria-expanded="false"
       aria-controls="nav-mobile"
@@ -43,18 +43,47 @@ const links = [
 
   <nav
     id="nav-mobile"
-    class="md:hidden hidden mt-3 mx-4 rounded-xl border border-white/10 bg-charcoal-900/95 backdrop-blur-sm overflow-hidden"
+    class="md:hidden hidden mt-3 mx-4 rounded-xl border border-ink/10 bg-charcoal-900/95 backdrop-blur-sm overflow-hidden"
   >
     {links.map((link) => (
       <a
         href={link.href}
-        class="block px-5 py-3 text-sm text-white/70 border-b border-white/5 last:border-b-0 hover:text-accent-light hover:bg-white/[0.03] transition-colors"
+        class="block px-5 py-3 text-sm text-ink/70 border-b border-ink/5 last:border-b-0 hover:text-accent-light hover:bg-ink/[0.03] transition-colors"
       >
         {link.label}
       </a>
     ))}
   </nav>
 </header>
+
+<style>
+  /* Hover lift + a little tilt, a quick squish on press/tap, and a
+     one-shot "pop" spin triggered by JS on click (below) — covers both
+     a lingering hover on desktop and a tap on mobile ("touched"). */
+  .logo-link {
+    display: inline-flex;
+    transition: transform 0.2s ease;
+  }
+
+  .logo-link:hover {
+    transform: scale(1.08) rotate(-4deg);
+  }
+
+  .logo-link:active {
+    transform: scale(0.9);
+  }
+
+  .logo-link.is-popping img {
+    animation: logo-pop 0.5s ease;
+  }
+
+  @keyframes logo-pop {
+    0% { transform: scale(1) rotate(0deg); }
+    40% { transform: scale(1.25) rotate(14deg); }
+    70% { transform: scale(0.95) rotate(-6deg); }
+    100% { transform: scale(1) rotate(0deg); }
+  }
+</style>
 
 <script>
   const toggle = document.getElementById('nav-toggle');
@@ -78,5 +107,13 @@ const links = [
 
   menu?.querySelectorAll('a').forEach((link) => {
     link.addEventListener('click', () => setOpen(false));
+  });
+
+  const logoLink = document.querySelector<HTMLAnchorElement>('.logo-link');
+  logoLink?.addEventListener('click', () => {
+    logoLink.classList.remove('is-popping');
+    // Force a reflow so the animation restarts on repeated clicks.
+    void logoLink.offsetWidth;
+    logoLink.classList.add('is-popping');
   });
 </script>
