@@ -1,0 +1,3 @@
+# Exclude embedded notebook exports from GitHub's language stats —
+# they're large static HTML dumps (Jupyter/Colab output), not site code.
+public/notebooks/*.html linguist-vendored
